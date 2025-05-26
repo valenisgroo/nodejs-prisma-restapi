@@ -1,0 +1,28 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+//Crear tablas --> Model
+
+model Producto {
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  precio Int @default(999)
+  fechaCreacion DateTime @default(now())
+  categoria Categoria @relation(fields: [categoriaId], references: [id])
+  categoriaId Int
+}
+
+model Categoria {
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  productos Producto[]
+}
+
+//La categoria esta relacionada con muchos productos
